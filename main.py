@@ -24,12 +24,9 @@ def copying_from_src(source, dest):
         os.makedirs(dest)
         print(f"Folder {dest} created.")
         logging.info(f"Folder {dest} created.")
-    try:
-        source_dir = os.listdir(source)
-        dest_dir = os.listdir(dest)
-    except PermissionError:
-        print("Cheack directory and try again")
-        exit(1)
+
+    source_dir = os.listdir(source)
+    dest_dir = os.listdir(dest)
 
     for file_name in source_dir:
         source_path = os.path.join(source, file_name)
@@ -120,6 +117,8 @@ def main():
 
     args = parser.parse_args()
 
+    add_logfile(args.logfile)
+
     try:
         while True:
             copying_from_src(args.source, args.replica)
@@ -131,4 +130,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
