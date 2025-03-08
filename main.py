@@ -57,8 +57,9 @@ def copying_from_src(source, dest):
 
                     if not os.path.exists(dest_root):
                         os.makedirs(dest_root)
-                        print(f"Created folder {dest_root}")
-                        logging.info(f"Created folder {dest_root}")
+                        print_message=f"Created folder {dest_root}"
+                        print(print_message)
+                        logging.info(print_message)
 
                     for file in files:
                         source_file = os.path.join(root, file)
@@ -70,6 +71,7 @@ def copying_from_src(source, dest):
                             logging.info(f"Copying file {file} to {dest_root}")
 
 def delete_from_dest(source, dest):
+
     source_dir = os.listdir(source)
     dest_dir = os.listdir(dest)
 
@@ -118,9 +120,15 @@ def main():
     args = parser.parse_args()
 
     add_logfile(args.logfile)
-
+    if args.interval <= 0:
+        print("Time can`t be less than 0")
+        exit(1)
+    if not os.path.exists(args.source):
+        print("search directory doesn`t exist")
+        exit(1)
     try:
         while True:
+
             copying_from_src(args.source, args.replica)
             delete_from_dest(args.source, args.replica)
             time.sleep(args.interval)
@@ -128,5 +136,5 @@ def main():
         print("STOP")
         exit(1)
 
-if __name__ == '__main__':
+if (__name__ == '__main__'):
     main()
